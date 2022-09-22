@@ -1,6 +1,6 @@
-import java.util.*;
-
 package com.develogical;
+
+import java.util.*;
 
 public class QueryProcessor {
 
@@ -9,18 +9,27 @@ public class QueryProcessor {
             return "William Shakespeare (26 April 1564 - 23 April 1616) was an " +
                     "English poet, playwright, and actor, widely regarded as the greatest " +
                     "writer in the English language and the world's pre-eminent dramatist.";
-        }
-        if (query.toLowerCase().contains("name")) {
+        } else if (query.toLowerCase().contains("name")) {
             return "Imperial";
-        }
-        String[] splitQuery = query.split(":");
-        String question = splitQuery[1];
-        String vals = splitQuery[splitQuery.length() - 1];
-        
-        if (question.toLowerCase().contains("which of the following numbers is the largest")) {
-            vals = vals.strip();
-            Integer[] nums = vals.split(", ");
-            return Collections.max(Arrays.asList(nums));
+        } else if (query.toLowerCase().contains("which of the following numbers is the largest")) {
+            String[] splitQuery = query.split(":");
+            String vals = splitQuery[splitQuery.length - 1];
+
+            vals = vals.trim();
+            ArrayList <Integer> nums = new ArrayList<Integer>();
+            for (String value : vals.split(", ")) {
+                nums.add(Integer.parseInt(value));
+            }
+            
+            Integer maxNum = Integer.MIN_VALUE;
+
+            for (Integer num : nums) {
+                maxNum = Integer.max(maxNum, num);
+            }
+
+            return String.valueOf(maxNum);
+        } else if (query.toLowerCase().contains("what is") && query.toLowerCase().contains("multiplied by")) {
+            return "";
         }
         
         return "";
